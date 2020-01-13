@@ -65,6 +65,13 @@ python manage.py runserver
 
 Now go to [localhost:8000/example](http://localhost:8000/example/).
 
+
+Also, tests:
+
+```bash
+python manage.py test
+```
+
 ## Cheatsheet
 
 ## Useful Django Documentation
