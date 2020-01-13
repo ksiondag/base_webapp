@@ -87,3 +87,5 @@ There should also be instructions on:
 
 Quality of life stuff:
 * django shell should use iPython
+* tab completetion for manage.py commands
+* bash script that does all the setup stuff?

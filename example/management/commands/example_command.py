@@ -3,9 +3,9 @@ from django.core.management.base import BaseCommand
 from example.models import Fund
 
 
-def list_funds(fundname):
-    if fundname:
-        queryset = Fund.objects.filter(name__in=fundname)
+def list_funds(fundnames):
+    if fundnames:
+        queryset = Fund.objects.filter(name__in=fundnames)
     else:
         queryset = Fund.objects.all()
     print("Funds:")
@@ -20,6 +20,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("fundname", nargs="*")
 
-    def handle(self, fundname, *args, **kwargs):
-        print(fundname)
-        list_funds(*fundname)
+    def handle(self, fundname=None, *args, **kwargs):
+        if fundname is None:
+            fundname = []
+        list_funds(fundname)
