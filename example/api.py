@@ -4,26 +4,12 @@ from datetime import date
 from example.models import Fund
 
 
-class FireAPI():
-    def __init__(self):
-        pass
-
+class FundAPI:
     def get(self):
-        pass
+        return {
+            "funds": [fund.to_json() for fund in Fund.objects.all()],
+        }
 
-    def patch(self):
-        pass
-
-    def post(self):
-        pass
-
-
-@contextmanager
-def fire_api():
-    yield FireAPI()
-
-
-class FundAPI():
     def post(self, name, balance, balance_date=None):
         if balance_date is None:
             balance_date = date.today()
@@ -32,4 +18,4 @@ class FundAPI():
 
 @contextmanager
 def fund_api():
-    yield FireAPI()
+    yield FundAPI()

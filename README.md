@@ -80,6 +80,7 @@ So there should be examples of:
 * FE that calls to the backend
 * django custom middleware?
 * django unit tests
+* user setup
 
 There should also be instructions on:
 * How to create a new app and plug the app in
