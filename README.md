@@ -98,6 +98,7 @@ So there should be examples of:
 There should also be instructions on:
 * How to create a new app and plug the app in
 * How to migrate from sqlite3 to postgres (when scaling becomes necessary)
+* How to setup migrations (right now I'm just deleting the first one and starting from scratch with each change)
 
 Quality of life stuff:
 * django shell should use iPython
