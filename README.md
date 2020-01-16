@@ -65,6 +65,11 @@ python manage.py runserver
 
 Now go to [localhost:8000/example](http://localhost:8000/example/).
 
+You'll want to create a superuser, and just assume they're logged in at first until you create a login flow.
+
+```bash
+python manage.py createsuperuser --name example --email name@example.com
+```
 
 Also, tests:
 
@@ -87,7 +92,8 @@ So there should be examples of:
 * FE that calls to the backend
 * django custom middleware?
 * django unit tests
-* user setup
+* user registration flows (right now have to make users manual from commandline)
+* user login flows
 
 There should also be instructions on:
 * How to create a new app and plug the app in
