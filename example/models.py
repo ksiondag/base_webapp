@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 def _today():
@@ -20,6 +21,10 @@ class Fund(models.Model):
     name = models.CharField(unique=True, max_length=255)
     balance = models.IntegerField(default=0)
     balance_date = models.DateField(null=False)
+
+    # TODO: It might make sense to make this a many-to-many relationship so that funds can be shared between users
+    # (Think joint checking accounts)
+    user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
 
     def to_json(self):
         return {

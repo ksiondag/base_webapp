@@ -8,9 +8,14 @@ def crud_fund(request):
         if request.method == "GET":
             response = api.get()
         elif request.method == "POST":
+            import pdb
+
+            pdb.set_trace()
             params = request.POST
             response = api.post(
-                name=params["name"], balance=int(float(params["balance"]) * 1000)
+                user=request.user,
+                name=params["name"],
+                balance=int(float(params["balance"]) * 1000),
             )
 
         return JsonResponse(response, safe=False)
