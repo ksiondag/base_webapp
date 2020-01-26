@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter, Router } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
+import { RouterAppProps } from "./interfaces";
 
-function App() {
+function App(props: RouterAppProps) {
     const [isAuthenticated, userHasAuthenticated] = React.useState(false);
     const [isAuthenticating, setIsAuthenticating] = React.useState(true);
 
@@ -25,6 +26,7 @@ function App() {
     function handleLogout() {
         localStorage.removeItem(`token`);
         userHasAuthenticated(false);
+        props.history.push(`/login`);
     }
 
     return (!isAuthenticating &&
@@ -54,4 +56,4 @@ function App() {
     );
 }
 
-export default App;
+export default withRouter(App);

@@ -2,9 +2,9 @@ import * as React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 
-import { AppProps } from "../interfaces";
+import { RouterAppProps } from "../interfaces";
 
-export default function Login(props: React.PropsWithChildren<AppProps>) {
+export default function Login(props: React.PropsWithChildren<RouterAppProps>) {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
 
@@ -25,6 +25,7 @@ export default function Login(props: React.PropsWithChildren<AppProps>) {
         if (json.token) {
             localStorage.setItem(`token`, json.token);
             props.userHasAuthenticated(true);
+            props.history.push("/");
         } else {
             alert(json.non_field_errors)
         }
