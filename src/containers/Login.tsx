@@ -13,7 +13,7 @@ export default function Login(props: React.PropsWithChildren<RouterAppProps>) {
     }
 
     const login = async (data: { username: string, password: string }) => {
-        const response = await fetch(`http://localhost:8000/token-auth/`, {
+        const response = await fetch(`http://localhost:8000/api/token-auth/`, {
             method: `POST`,
             headers: {
                 "Content-Type": `application/json`
