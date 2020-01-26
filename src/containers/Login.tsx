@@ -25,9 +25,12 @@ export default function Login(props: React.PropsWithChildren<AppProps>) {
 
         console.log(json);
 
-        localStorage.setItem('token', json.token);
-
-        props.userHasAuthenticated(true);
+        if (json.token) {
+            localStorage.setItem('token', json.token);
+            props.userHasAuthenticated(true);
+        } else {
+            alert(json.non_field_errors)
+        }
     };
 
     function handleSubmit(event: React.FormEvent) {
