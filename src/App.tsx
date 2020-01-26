@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
@@ -7,13 +6,28 @@ import "./App.css";
 import Routes from "./Routes";
 
 function App() {
-    const [isAuthenticated, userHasAuthenticated] = useState(false);
+    const [isAuthenticated, userHasAuthenticated] = React.useState(false);
+    const [isAuthenticating, setIsAuthenticating] = React.useState(true);
+
+    React.useEffect(() => {
+        onLoad();
+    }, []);
+
+    async function onLoad() {
+        const token = localStorage.getItem(`token`);
+
+        if (!!token) {
+            userHasAuthenticated(true);
+        }
+        setIsAuthenticating(false);
+    }
 
     function handleLogout() {
+        localStorage.removeItem(`token`);
         userHasAuthenticated(false);
     }
 
-    return (
+    return (!isAuthenticating &&
         <div className="App container">
             <Navbar fluid collapseOnSelect>
                 <Navbar.Header>

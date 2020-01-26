@@ -1,13 +1,12 @@
 import * as React from "react";
-import { useState } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 
 import { AppProps } from "../interfaces";
 
 export default function Login(props: React.PropsWithChildren<AppProps>) {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = React.useState("");
+    const [password, setPassword] = React.useState("");
 
     function validateForm() {
         return username.length > 0 && password.length > 0;
@@ -23,10 +22,8 @@ export default function Login(props: React.PropsWithChildren<AppProps>) {
         });
         const json = await response.json();
 
-        console.log(json);
-
         if (json.token) {
-            localStorage.setItem('token', json.token);
+            localStorage.setItem(`token`, json.token);
             props.userHasAuthenticated(true);
         } else {
             alert(json.non_field_errors)
