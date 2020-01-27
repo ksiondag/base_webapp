@@ -1,21 +1,16 @@
-from django.http import JsonResponse
+from example.models import Fund
+from example.serializers import FundSerializer
+from rest_framework import generics
 
-from example.api import fund_api
+
+class FundList(generics.ListCreateAPIView):
+    queryset = Fund.objects.all()
+    serializer_class = FundSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
-def crud_fund(request):
-    with fund_api() as api:
-        if request.method == "GET":
-            response = api.get()
-        elif request.method == "POST":
-            import pdb
-
-            pdb.set_trace()
-            params = request.POST
-            response = api.post(
-                user=request.user,
-                name=params["name"],
-                balance=int(float(params["balance"]) * 1000),
-            )
-
-        return JsonResponse(response, safe=False)
+class FundDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Fund.objects.all()
+    serializer_class = FundSerializer
