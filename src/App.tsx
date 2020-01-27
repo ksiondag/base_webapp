@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Link, withRouter, Router } from "react-router-dom";
+import { Link, withRouter, Router, RouteComponentProps } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 import { RouterAppProps } from "./interfaces";
 
-function App(props: RouterAppProps) {
+function App(props: React.PropsWithChildren<RouteComponentProps>) {
     const [isAuthenticated, userHasAuthenticated] = React.useState(false);
     const [isAuthenticating, setIsAuthenticating] = React.useState(true);
 
