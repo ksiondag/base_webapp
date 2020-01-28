@@ -135,10 +135,10 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ),
 }
 
-CORS_ORIGIN_WHITELIST = ("http://localhost:8080",)
+CORS_ORIGIN_WHITELIST = ("http://localhost:8080", "http://localhost:8000",)

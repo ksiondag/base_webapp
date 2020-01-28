@@ -13,21 +13,21 @@ export default function Login(props: React.PropsWithChildren<RouterAppProps>) {
     }
 
     const login = async (data: { username: string, password: string }) => {
-        const response = await fetch(`http://localhost:8000/api/token-auth/`, {
+        const response = await fetch(`http://localhost:8000/api/token/`, {
             method: `POST`,
             headers: {
                 "Content-Type": `application/json`
             },
             body: JSON.stringify(data)
         });
-        const json = await response.json();
+        const token = await response.json();
 
-        if (json.token) {
-            localStorage.setItem(`token`, json.token);
+        if (token.access) {
+            localStorage.setItem(`token`, token.access);
             props.userHasAuthenticated(true);
             props.history.push("/");
         } else {
-            alert(json.non_field_errors)
+            alert(token.detail)
         }
     };
 
