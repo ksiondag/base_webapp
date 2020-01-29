@@ -3,6 +3,7 @@ import "./Funds.css";
 
 import { Table } from "react-bootstrap";
 
+import * as api from "../api/base";
 
 export default function Funds() {
     const [funds, setFunds] = React.useState([]);
@@ -12,20 +13,10 @@ export default function Funds() {
     }, []);
 
     const fetchFunds = async () => {
-        const response = await fetch(`http://localhost:8000/api/funds/`, {
-            method: `GET`,
-            headers: {
-                "Content-Type": `application/json`,
-                "Authorization": `Bearer ${localStorage.getItem(`token`)}`,
-            }
-        });
+        const funds = await api.fetchFunds();
 
-        const json = await response.json();
-
-        if (json.detail) {
-            localStorage.removeItem(`token`);
-        } else {
-            setFunds(json)
+        if (!funds.detail) {
+            setFunds(funds)
         }
     }
 

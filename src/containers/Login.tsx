@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
+import * as api from "../api/base";
 
 import { RouterAppProps } from "../interfaces";
 
@@ -13,17 +14,9 @@ export default function Login(props: React.PropsWithChildren<RouterAppProps>) {
     }
 
     const login = async (data: { username: string, password: string }) => {
-        const response = await fetch(`http://localhost:8000/api/token/`, {
-            method: `POST`,
-            headers: {
-                "Content-Type": `application/json`
-            },
-            body: JSON.stringify(data)
-        });
-        const token = await response.json();
+        const token = await api.fetchToken(data);
 
         if (token.access) {
-            localStorage.setItem(`token`, token.access);
             props.userHasAuthenticated(true);
             props.history.push("/");
         } else {
