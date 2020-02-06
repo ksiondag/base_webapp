@@ -1,5 +1,9 @@
 import { apiUrl } from "./util";
 
+const updateTimestamp = () => {
+    localStorage.setItem(`token_timestamp`, Date.now().toString());
+};
+
 export const login = async (data: { username: string, password: string }) => {
     const response = await fetch(apiUrl(`token/`), {
         method: `POST`,
@@ -14,12 +18,19 @@ export const login = async (data: { username: string, password: string }) => {
     if (token.access) {
         localStorage.setItem(`access_token`, token.access);
         localStorage.setItem(`refresh_token`, token.refresh);
+        updateTimestamp();
         ret.success = true;
     } else {
         ret.success = false;
         ret.message = token.detail;
     }
     return ret;
+};
+
+const shouldUpdate = (maxAge: number) => {
+    const timestamp = parseFloat(localStorage.getItem(`token_timestamp`));
+
+    return isNaN(timestamp) || (Date.now() - timestamp) > maxAge;
 };
 
 export const verify = async () => {
@@ -37,10 +48,12 @@ export const verify = async () => {
 };
 
 export const refresh = async () => {
-    if (!await verify()) {
+    // If timestamp is within last 4.5 minutes, assume token is good
+    const timestamp = parseFloat(localStorage.getItem(`token_timestamp`));
+    if (!shouldUpdate(5 * 60 * 1000 - 30 * 60)) {
         return {
-            success: false,
-            message: `Refresh token has expired, please login again`
+            success: true,
+            message: ``,
         };
     }
 
@@ -59,6 +72,8 @@ export const refresh = async () => {
     if (token.access) {
         localStorage.setItem(`access_token`, token.access);
         ret.success = true;
+        ret.message = ``;
+        updateTimestamp();
     } else {
         ret.success = false;
         ret.message = token.detail;
