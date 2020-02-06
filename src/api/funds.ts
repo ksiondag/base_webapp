@@ -1,7 +1,7 @@
 import { apiUrl } from "./util";
 import { refresh } from "./token";
 
-export const fetchFunds = async () => {
+const get = async () => {
     const loggedIn = await refresh();
     if (!loggedIn.success) {
         return {
@@ -20,8 +20,6 @@ export const fetchFunds = async () => {
 
     const json = await response.json();
 
-    console.log(json);
-
     if (json.detail) {
         return {
             success: false,
@@ -32,4 +30,18 @@ export const fetchFunds = async () => {
         success: true,
         funds: json
     };
+};
+
+const post = async () => {
+
+};
+
+const remove = async () => {
+
+};
+
+export default {
+    get,
+    post,
+    delete: remove,
 };

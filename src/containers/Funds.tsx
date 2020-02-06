@@ -3,7 +3,7 @@ import "./Funds.css";
 
 import { Table } from "react-bootstrap";
 
-import * as api from "../api/base";
+import fundsApi from "../api/funds";
 import * as token from "../api/token";
 import { RouterAppProps } from "../interfaces";
 
@@ -11,11 +11,11 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
     const [funds, setFunds] = React.useState([]);
 
     React.useEffect(() => {
-        fetchFunds();
+        loadFunds();
     }, []);
 
-    const fetchFunds = async () => {
-        const response = await api.fetchFunds();
+    const loadFunds = async () => {
+        const response = await fundsApi.get();
 
         if (response.success) {
             setFunds(response.funds)
