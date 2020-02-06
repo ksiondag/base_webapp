@@ -4,8 +4,10 @@ import "./Funds.css";
 import { Table } from "react-bootstrap";
 
 import * as api from "../api/base";
+import * as token from "../api/token";
+import { RouterAppProps } from "../interfaces";
 
-export default function Funds() {
+export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
     const [funds, setFunds] = React.useState([]);
 
     React.useEffect(() => {
@@ -13,10 +15,14 @@ export default function Funds() {
     }, []);
 
     const fetchFunds = async () => {
-        const funds = await api.fetchFunds();
+        const response = await api.fetchFunds();
 
-        if (!funds.detail) {
-            setFunds(funds)
+        if (response.success) {
+            setFunds(response.funds)
+        } else if (!await token.verify()) {
+            props.history.push("/login");
+        } else {
+            alert(response.message)
         }
     }
 
