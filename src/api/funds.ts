@@ -24,11 +24,25 @@ export default class FundApi {
     }
 
     @verifyLoggedIn
-    static async post({ name, balance }: { name: string, balance: number }) {
+    static async post(data: { name: string, balance: number }) {
         const response = await fetch(apiUrl(`funds/`), {
             method: `POST`,
             headers: getHeaders(),
+            body: JSON.stringify(data),
         });
+
+        const json = await response.json();
+
+        if (json.detail) {
+            return {
+                success: false,
+                message: json.detail,
+            }
+        }
+        return {
+            success: true,
+            fund: json,
+        }
     }
 
     @verifyLoggedIn

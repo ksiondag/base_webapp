@@ -2,7 +2,6 @@ from datetime import date
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
 
 
 def _today():
@@ -22,7 +21,7 @@ class Fund(models.Model):
     # TODO: unique-together with user
     name = models.CharField(unique=True, max_length=255)
     balance = models.IntegerField(default=0)
-    balance_date = models.DateField(default=timezone.now, null=False)
+    balance_date = models.DateField(default=date.today, null=False)
 
     # TODO: It might make sense to make this a many-to-many relationship so that funds can be shared between users
     # (Think joint checking accounts)

@@ -44,8 +44,12 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
     };
 
     const saveFund = async (name: string, balance: number) => {
-        fundsApi.post({ name, balance });
-        setAddFund(false);
+        const response = await fundsApi.post({ name, balance });
+
+        if (response.success) {
+            setFunds(funds.concat([response.fund]));
+            setAddFund(false);
+        }
     };
 
     return (
