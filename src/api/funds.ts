@@ -1,6 +1,8 @@
 import { apiUrl } from "./util";
 import { refresh } from "./token";
 
+// TODO: logged-in decorator
+
 const get = async () => {
     const loggedIn = await refresh();
     if (!loggedIn.success) {
