@@ -47,6 +47,21 @@ export default class FundApi {
 
     @verifyLoggedIn
     static async delete(id: number) {
+        const response = await fetch(apiUrl(`funds/${id}`), {
+            method: `DELETE`,
+            headers: getHeaders(),
+        });
 
+        if (response.status === 204) {
+            return {
+                success: true,
+                message: ``,
+            }
+        } else {
+            return {
+                success: false,
+                message: `Failed to DELETE for unknown reason`,
+            }
+        }
     }
 };

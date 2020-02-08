@@ -15,14 +15,6 @@ interface Fund {
     id: number;
 }
 
-function DeleteFund(props: React.PropsWithChildren<Fund>) {
-    return (
-        <ButtonToolbar>
-            <Button bsStyle="danger">Delete</Button>
-        </ButtonToolbar>
-    );
-}
-
 export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
     const [funds, setFunds] = React.useState([]);
     const [addFund, setAddFund] = React.useState(false);
@@ -52,6 +44,16 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
         }
     };
 
+    const deleteFund = async (id: number) => {
+        const response = await fundsApi.delete(id);
+
+        if (response.success) {
+            setFunds(funds.filter(fund => fund.id !== id));
+        } else {
+            alert(response.message);
+        }
+    };
+
     return (
         <div className="Funds">
             <Table>
@@ -77,7 +79,9 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
                                 <td>{name}</td>
                                 <td>{balance}</td>
                                 <td>
-                                    <DeleteFund id={id} />
+                                    <ButtonToolbar>
+                                        <Button bsStyle="danger" onClick={() => deleteFund(id)}>Delete</Button>
+                                    </ButtonToolbar>
                                 </td>
                             </tr>
                         })
