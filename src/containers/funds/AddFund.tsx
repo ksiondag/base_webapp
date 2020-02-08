@@ -10,7 +10,10 @@ export default function AddFund(props: React.PropsWithChildren<AddFundProps>) {
     const [fundName, setFundName] = React.useState("");
     const [balance, setBalance] = React.useState(0.00);
 
-    const handleSubmit = () => props.saveFund(fundName, balance);
+    const handleSubmit = (event: React.FormEvent | React.MouseEvent<Button, MouseEvent>) => {
+        event.preventDefault();
+        props.saveFund(fundName, balance);
+    };
 
     return (
         <tr key="add">
