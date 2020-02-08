@@ -1,11 +1,15 @@
 import * as React from "react";
-import "./Funds.css";
 
 import { Table, ButtonToolbar, Button, FormControl } from "react-bootstrap";
 
 import fundsApi from "../api/funds";
 import * as token from "../api/token";
 import { RouterAppProps } from "../interfaces";
+
+import AddFund from "./funds/AddFund";
+
+import "./Funds.css";
+
 
 interface Fund {
     id: number;
@@ -37,7 +41,12 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
         } else {
             alert(response.message)
         }
-    }
+    };
+
+    const saveFund = async (name: string, balance: number) => {
+        fundsApi.post({ name, balance });
+        setAddFund(false);
+    };
 
     return (
         <div className="Funds">
@@ -54,25 +63,7 @@ export default function Funds(props: React.PropsWithChildren<RouterAppProps>) {
                     </tr>
                     {addFund
                         ?
-                        <tr key="add">
-                            <td>
-                                <FormControl
-                                    type="text"
-                                    placeholder="Fund name"
-                                />
-                            </td>
-                            <td>
-                                <FormControl
-                                    type="text"
-                                    placeholder="0.00"
-                                />
-                            </td>
-                            <td>
-                                <ButtonToolbar>
-                                    <Button onClick={() => setAddFund(false)}>Cancel</Button>
-                                </ButtonToolbar>
-                            </td>
-                        </tr>
+                        <AddFund setAddFund={setAddFund} saveFund={saveFund} />
                         :
                         <></>
                     }

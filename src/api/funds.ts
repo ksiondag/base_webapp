@@ -1,49 +1,38 @@
 import { apiUrl } from "./util";
-import { refresh } from "./token";
+import { getHeaders, verifyLoggedIn } from "./token";
 
-// TODO: logged-in decorator
+export default class FundApi {
+    @verifyLoggedIn
+    static async get() {
+        const response = await fetch(apiUrl(`funds/`), {
+            method: `GET`,
+            headers: getHeaders(),
+        });
 
-const get = async () => {
-    const loggedIn = await refresh();
-    if (!loggedIn.success) {
-        return {
-            success: false,
-            message: loggedIn.message
-        };
-    }
+        const json = await response.json();
 
-    const response = await fetch(apiUrl(`funds/`), {
-        method: `GET`,
-        headers: {
-            "Content-Type": `application/json`,
-            "Authorization": `Bearer ${localStorage.getItem(`access_token`)}`,
+        if (json.detail) {
+            return {
+                success: false,
+                message: json.detail
+            };
         }
-    });
-
-    const json = await response.json();
-
-    if (json.detail) {
         return {
-            success: false,
-            message: json.detail
+            success: true,
+            funds: json
         };
     }
-    return {
-        success: true,
-        funds: json
-    };
-};
 
-const post = async () => {
+    @verifyLoggedIn
+    static async post({ name, balance }: { name: string, balance: number }) {
+        const response = await fetch(apiUrl(`funds/`), {
+            method: `POST`,
+            headers: getHeaders(),
+        });
+    }
 
-};
+    @verifyLoggedIn
+    static async delete(id: number) {
 
-const remove = async () => {
-
-};
-
-export default {
-    get,
-    post,
-    delete: remove,
+    }
 };
