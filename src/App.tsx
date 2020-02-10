@@ -4,7 +4,7 @@ import { Nav, Navbar, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
-import { RouterAppProps } from "./interfaces";
+import * as token from "./api/token";
 
 function App(props: React.PropsWithChildren<RouteComponentProps>) {
     const [isAuthenticated, userHasAuthenticated] = React.useState(false);
@@ -15,16 +15,11 @@ function App(props: React.PropsWithChildren<RouteComponentProps>) {
     }, []);
 
     async function onLoad() {
-        const token = localStorage.getItem(`token`);
-
-        if (!!token) {
-            userHasAuthenticated(true);
-        }
+        userHasAuthenticated(await token.verify());
         setIsAuthenticating(false);
     }
 
     function handleLogout() {
-        localStorage.removeItem(`token`);
         userHasAuthenticated(false);
         props.history.push(`/login`);
     }
