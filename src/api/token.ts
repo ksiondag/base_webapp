@@ -54,7 +54,7 @@ export const verify = async () => {
     return response.status === 200;
 };
 
-const refresh = async () => {
+export const refresh = async () => {
     // If timestamp is within last 4.5 minutes, assume token is good
     const timestamp = parseFloat(localStorage.getItem(`token_timestamp`));
     if (!shouldUpdate(5 * 60 * 1000 - 30 * 60)) {

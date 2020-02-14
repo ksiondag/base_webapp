@@ -10,7 +10,6 @@ import AddFund from "./funds/AddFund";
 
 import "./Funds.css";
 
-
 interface Fund {
     id: number;
 }
