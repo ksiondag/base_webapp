@@ -16,7 +16,7 @@ afterEach(() => {
 })
 
 
-test('Funds render as a table of names and balances', async () => {
+test('funds render as a table of names and balances', async () => {
     const appProps = {
         isAuthenticated: false,
         userHasAuthenticated: (): null => null,
@@ -25,20 +25,21 @@ test('Funds render as a table of names and balances', async () => {
     mockFundsApi.get.mockResolvedValue({
         success: true,
         funds: [
-            //{ "id": 11, "name": "Woo", "balance": 0, "balanceDate": "2020-02-08", "userId": 1 },
-            //{ "id": 12, "name": "Another", "balance": 0, "balanceDate": "2020-02-08", "userId": 1 },
-            //{ "id": 13, "name": "Oh really?", "balance": 250, "balanceDate": "2020-02-08", "userId": 1 },
-            //{ "id": 14, "name": "Nick", "balance": 100000, "balanceDate": "2020-02-09", "userId": 1 },
-            //{ "id": 15, "name": "type a thing", "balance": 0, "balanceDate": "2020-02-09", "userId": 1 },
-            //{ "id": 16, "name": "yas", "balance": 250, "balanceDate": "2020-02-09", "userId": 1 }
+            { "id": 11, "name": "Woo", "balance": 0, "balanceDate": "2020-02-08", "userId": 1 },
+            { "id": 12, "name": "Another", "balance": 0, "balanceDate": "2020-02-08", "userId": 1 },
+            { "id": 13, "name": "Oh really?", "balance": 250, "balanceDate": "2020-02-08", "userId": 1 },
+            { "id": 14, "name": "Nick", "balance": 100000, "balanceDate": "2020-02-09", "userId": 1 },
+            { "id": 15, "name": "type a thing", "balance": 0, "balanceDate": "2020-02-09", "userId": 1 },
+            { "id": 16, "name": "yas", "balance": 250, "balanceDate": "2020-02-09", "userId": 1 }
         ]
     })
 
-    render(
+    const component = render(
         <MemoryRouter>
             <AppliedRoute component={Funds} appProps={appProps} />
         </MemoryRouter>
     );
-
     await wait();
+
+    expect(component).toMatchSnapshot();
 });
