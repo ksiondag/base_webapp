@@ -1,10 +1,10 @@
 import * as React from "react";
 import "./Home.css";
 
-import { AppProps } from "../interfaces";
+import { RouterAppProps } from "../interfaces";
 import Funds from "./Funds";
 
-export default function Home(props: React.PropsWithChildren<AppProps>) {
+export default function Home(props: React.PropsWithChildren<RouterAppProps>) {
     return (
         <div className="Home">
             <div className="lander">
@@ -12,7 +12,7 @@ export default function Home(props: React.PropsWithChildren<AppProps>) {
                 <p>A simple example app with a React frontend and a Django backend.</p>
             </div>
             {props.isAuthenticated &&
-                <Funds />
+                <Funds {...props} />
             }
         </div>
     );

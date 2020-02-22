@@ -21,16 +21,9 @@ class Fund(models.Model):
     # TODO: unique-together with user
     name = models.CharField(unique=True, max_length=255)
     balance = models.IntegerField(default=0)
-    balance_date = models.DateField(null=False)
+    balance_date = models.DateField(default=date.today, null=False)
 
     # TODO: It might make sense to make this a many-to-many relationship so that funds can be shared between users
     # (Think joint checking accounts)
     # TODO: Make this "owner" and also have a list of users that are allowed to view fund
     user = models.ForeignKey(User, null=False, on_delete=models.CASCADE)
-
-    def to_json(self):
-        return {
-            "name": self.name,
-            "balance": self.balance,
-            "last_updated": self.balance_date,
-        }

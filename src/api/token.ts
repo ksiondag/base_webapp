@@ -4,6 +4,13 @@ const updateTimestamp = () => {
     localStorage.setItem(`token_timestamp`, Date.now().toString());
 };
 
+export const getHeaders = () => {
+    return {
+        "Content-Type": `application/json`,
+        "Authorization": `Bearer ${localStorage.getItem(`access_token`)}`,
+    }
+}
+
 export const login = async (data: { username: string, password: string }) => {
     const response = await fetch(apiUrl(`token/`), {
         method: `POST`,
@@ -47,7 +54,7 @@ export const verify = async () => {
     return response.status === 200;
 };
 
-export const refresh = async () => {
+const refresh = async () => {
     // If timestamp is within last 4.5 minutes, assume token is good
     const timestamp = parseFloat(localStorage.getItem(`token_timestamp`));
     if (!shouldUpdate(5 * 60 * 1000 - 30 * 60)) {
@@ -79,4 +86,19 @@ export const refresh = async () => {
         ret.message = token.detail;
     }
     return ret;
+};
+
+export function verifyLoggedIn(target: Object, proertyKey: string, descriptor: PropertyDescriptor) {
+    const method = descriptor.value;
+    descriptor.value = async function () {
+        const loggedIn = await refresh();
+        if (!loggedIn.success) {
+            return {
+                success: false,
+                message: loggedIn.message
+            };
+        }
+
+        return method.apply(this, arguments);
+    };
 };
